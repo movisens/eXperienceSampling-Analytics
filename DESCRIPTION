@@ -1,5 +1,5 @@
-Package: radiant
-Title: Business Analytics using R and Shiny
+Package: xs-analytics
+Title: Experience Sampling Analytics using R and Shiny
 Version: 0.2.23
 Date: 2015-6-4
 Authors@R: person("Vincent", "Nijs", , "radiant@rady.ucsd.edu", c("aut", "cre"))
@@ -10,7 +10,9 @@ Depends:
 		magrittr (>= 1.5),
 		ggplot2 (>= 1.0.0),
 		tidyr (>= 0.2.0),
-		dplyr (>= 0.4.1)
+		dplyr (>= 0.4.1),
+		httr (>= 0.6.1),
+		jsonlite (>= 0.9.16)
 Imports:
 		car (>= 2.0.22),
     MASS (>= 7.3),

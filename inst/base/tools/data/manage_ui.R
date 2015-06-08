@@ -46,9 +46,9 @@ output$ui_Manage <- renderUI({
   list(
     wellPanel(
       radioButtons(inputId = "dataType", label = "Load data:",
-                   c("rda" = "rda", "csv" = "csv",  "clipboard" = "clipboard",
+                   c("rda" = "rda", "csv" = "csv",  "clipboard" = "clipboard", "movisensXS" = "movisensXS",
                      "examples" = "examples", "state" = "state"),
-                     selected = "rda", inline = TRUE),
+                     selected = "movisensXS", inline = TRUE),
       conditionalPanel(condition = "input.dataType != 'clipboard' &&
                                     input.dataType != 'examples'",
         conditionalPanel(condition = "input.dataType == 'csv'",
@@ -71,6 +71,11 @@ output$ui_Manage <- renderUI({
       conditionalPanel(condition = "input.dataType == 'state'",
         fileInput('uploadState', 'Load previous app state:',  accept = ".rda"),
         uiOutput("refreshOnUpload")
+      ),
+      conditionalPanel(condition = "input.dataType == 'movisensXS'",
+      	numericInput("studyId", "Study ID:", value = ""),
+      	textInput("apiKey", "API Key:", value = ""),
+        actionButton('loadMovisensData', 'Load data')
       )
     ),
     wellPanel(
@@ -234,6 +239,34 @@ observe({
 
     # sorting files alphabetically
     r_data[['datasetlist']] <- sort(r_data[['datasetlist']])
+
+    updateSelectInput(session, "dataset", label = "Datasets:",
+                      choices = r_data$datasetlist,
+                      selected = r_data$datasetlist[1])
+  })
+})
+
+# loading movisensXS data
+observe({
+  if (not_pressed(input$loadMovisensData)) return()
+  isolate({
+
+  	apiKey <- input$apiKey
+  	studyId <- input$studyId
+  	objname <- paste("Study ", studyId)
+	auth <- config(httpheader = c("Authorization" = paste("ApiKey", apiKey, sep=" ")))
+
+	# API call
+	url <- paste("https://hoc-hc013.hoc.uni-karlsruhe.de/api/v2/studies/", studyId, "/results", sep="")
+
+	req <- GET(url, auth)
+	json <- content(req, as = "text", encoding = "UTF-8")
+	print(json)
+    results <- fromJSON(json)
+
+	r_data[[objname]] <- results
+	r_data[[paste0(objname,"_descr")]] <- "testme"
+	r_data[['datasetlist']] <- c(objname,r_data[['datasetlist']]) %>% unique
 
     updateSelectInput(session, "dataset", label = "Datasets:",
                       choices = r_data$datasetlist,

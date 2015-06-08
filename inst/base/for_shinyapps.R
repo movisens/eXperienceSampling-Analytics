@@ -73,3 +73,5 @@ library(shiny)
 library(shinyAce)
 library(DT)
 library(jsonlite)
+
+library(httr)
