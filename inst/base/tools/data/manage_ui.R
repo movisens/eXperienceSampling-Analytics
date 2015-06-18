@@ -265,7 +265,7 @@ observe({
     results <- fromJSON(json)
 
     r_data[[objname]] <- results
-    r_data[[paste0(objname,"_descr")]] <- "testme"
+    r_data[[paste0(objname,"_descr")]] <- paste("movisensXS Study", studyId, sep=" ")))
     r_data[['datasetlist']] <- c(objname,r_data[['datasetlist']]) %>% unique
 
     updateSelectInput(session, "dataset", label = "Datasets:",
