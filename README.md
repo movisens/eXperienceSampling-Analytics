@@ -50,7 +50,8 @@ Radiant focuses on business data and decisions. It offers tools, examples, and d
 Radiant is available on [CRAN](http://cran.r-project.org/web/packages/radiant/index.html). To install the latest version with complete documentation for off-line access open R(studio) and copy-and-paste the command below:
 
 ```r
-install.packages("mnormt")
+install.packages("devtools")
+install.packages(c("lme4", "mnormt", "MathJaxR", "rpivotTable", "shinyAce"), repos = "http://vnijs.github.io/radiant_miniCRAN/")
 devtools::install_github('movisens/eXperienceSampling-Analytics')
 ```
 
@@ -60,7 +61,7 @@ If you want to update packages (e.g., after upgrading R) use:
 update.packages(checkBuilt = TRUE, ask = FALSE, type = "binary", repos = "http://vnijs.github.io/radiant_miniCRAN/")
 ```
 
-Once all packages are installed (updated) use the commands below to launch the app (use either "base", "quant", or "marketing"):
+Once all packages are installed (updated) use the commands below to launch the app (use either "xs", "base", "quant", or "marketing"):
 
 ```r
 library(radiant)
