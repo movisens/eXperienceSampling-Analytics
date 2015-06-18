@@ -73,8 +73,8 @@ output$ui_Manage <- renderUI({
         uiOutput("refreshOnUpload")
       ),
       conditionalPanel(condition = "input.dataType == 'movisensXS'",
-      	numericInput("studyId", "Study ID:", value = ""),
-      	textInput("apiKey", "API Key:", value = ""),
+        numericInput("studyId", "Study ID:", value = ""),
+        textInput("apiKey", "API Key:", value = ""),
         actionButton('loadMovisensData', 'Load data')
       )
     ),
@@ -251,22 +251,22 @@ observe({
   if (not_pressed(input$loadMovisensData)) return()
   isolate({
 
-  	apiKey <- input$apiKey
-  	studyId <- input$studyId
-  	objname <- paste("Study ", studyId)
-	auth <- config(httpheader = c("Authorization" = paste("ApiKey", apiKey, sep=" ")))
+    apiKey <- input$apiKey
+    studyId <- input$studyId
+    objname <- paste("Study ", studyId)
+    auth <- config(httpheader = c("Authorization" = paste("ApiKey", apiKey, sep=" ")))
 
-	# API call
-	url <- paste("https://hoc-hc013.hoc.uni-karlsruhe.de/api/v2/studies/", studyId, "/results", sep="")
+    # API call
+    url <- paste("https://hoc-hc013.hoc.uni-karlsruhe.de/api/v2/studies/", studyId, "/results", sep="")
 
-	req <- GET(url, auth)
-	json <- content(req, as = "text", encoding = "UTF-8")
-	print(json)
+    req <- GET(url, auth)
+    json <- content(req, as = "text", encoding = "UTF-8")
+    # print(json)
     results <- fromJSON(json)
 
-	r_data[[objname]] <- results
-	r_data[[paste0(objname,"_descr")]] <- "testme"
-	r_data[['datasetlist']] <- c(objname,r_data[['datasetlist']]) %>% unique
+    r_data[[objname]] <- results
+    r_data[[paste0(objname,"_descr")]] <- "testme"
+    r_data[['datasetlist']] <- c(objname,r_data[['datasetlist']]) %>% unique
 
     updateSelectInput(session, "dataset", label = "Datasets:",
                       choices = r_data$datasetlist,
