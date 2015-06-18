@@ -11,8 +11,8 @@
 #'   radiant("marketing")
 #' }
 #' @export
-xsanalytics <- function(app = c("xs", "marketing", "quant", "base"))
-  runApp(system.file(app[1], package="xsanalytics"), launch.browser = TRUE)
+radiant <- function(app = c("xs", "marketing", "quant", "base"))
+  runApp(system.file(app[1], package="radiant"), launch.browser = TRUE)
 
 #' Alias used to set the class for analysis function return
 #'
